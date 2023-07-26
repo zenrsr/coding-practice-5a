@@ -1,0 +1,42 @@
+// API 1
+GET http://localhost:3003/movies/
+###
+
+// API 2
+POST http://localhost:3003/movies/
+Content-Type: application/json 
+
+{
+  "directorId": 11,
+  "movieName": "Blue Lock",
+  "leadActor": "Isagi Yoichi"
+}
+###
+
+// API 3
+GET http://localhost:3003/movies/117/
+###
+
+// API 4
+PUT http://localhost:3003/movies/117/
+Content-Type: application/json 
+
+{
+  "directorId": 24,
+  "movieName": "Thor",
+  "leadActor": "Christopher Hemsworth"
+}
+###
+
+// API 5
+DELETE http://localhost:3003/movies/117/
+###
+
+// API 6
+GET http://localhost:3003/director/
+###
+
+// API 7
+GET http://localhost:3003/directors/3/movies/
+###
+
