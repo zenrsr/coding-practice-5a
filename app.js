@@ -5,7 +5,19 @@ const { open } = require("sqlite");
 const sqlite3 = require("sqlite3");
 const path = require("path");
 const dbPath = path.join(__dirname, "moviesData.db");
-const camelCase = require("camelcase-keys-deep");
+const camelCase = (obj) => {
+  var newObj = {};
+  for (d in obj) {
+    if (obj.hasOwnProperty(d)) {
+      newObj[
+        d.replace(/(\_\w)/g, function (k) {
+          return k[1].toUpperCase();
+        })
+      ] = obj[d];
+    }
+  }
+  return newObj;
+};
 
 let db = null;
 
@@ -29,7 +41,8 @@ app.get("/movies/", async (request, response) => {
   const getQuery = `SELECT movie_name FROM movie`;
   try {
     const x = await db.all(getQuery);
-    response.send(camelCase(x));
+    const result = x.map((each) => camelCase(each));
+    response.send(result);
   } catch (e) {
     console.log(`${e.message}`);
   }
@@ -100,7 +113,7 @@ app.get("/director/", async (request, response) => {
   const getQuery = `SELECT * FROM director;`;
   try {
     const x = await db.all(getQuery);
-    response.send(camelCase(x));
+    response.send(x.map((each) => camelCase(each)));
   } catch (e) {
     console.log(`${e.message}`);
   }
@@ -109,10 +122,10 @@ app.get("/director/", async (request, response) => {
 // API 7
 app.get("/directors/:directorId/movies/", async (request, response) => {
   const { directorId } = request.params;
-  const getQuery = `SELECT * FROM movie WHERE director_id = ${directorId};`;
+  const getQuery = `SELECT movie_name FROM movie WHERE director_id = ${directorId};`;
   try {
     const x = await db.all(getQuery);
-    response.send(camelCase(x));
+    response.send(x.map((each) => camelCase(each)));
   } catch (e) {
     console.log(`${e.message}`);
   }
