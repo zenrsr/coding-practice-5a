@@ -22,11 +22,11 @@ const camelCase = (obj) => {
 let db = null;
 
 const initialize = async () => {
-  db = await open({
-    filename: dbPath,
-    driver: sqlite3.Database,
-  });
   try {
+    db = await open({
+      filename: dbPath,
+      driver: sqlite3.Database,
+    });
     app.listen(3003, () => {
       console.log("Server running at http://localhost:3003/");
     });
@@ -35,7 +35,7 @@ const initialize = async () => {
   }
 };
 initialize();
-
+//
 // API 1
 app.get("/movies/", async (request, response) => {
   const getQuery = `SELECT movie_name FROM movie`;
@@ -109,7 +109,7 @@ app.delete("/movies/:movieId/", async (request, response) => {
 });
 
 // API 6
-app.get("/director/", async (request, response) => {
+app.get("/directors/", async (request, response) => {
   const getQuery = `SELECT * FROM director;`;
   try {
     const x = await db.all(getQuery);
